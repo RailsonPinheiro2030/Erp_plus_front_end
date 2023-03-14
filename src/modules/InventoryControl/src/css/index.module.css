@@ -1,0 +1,24 @@
+body {
+    overflow: hidden;
+}
+
+.container{
+    overflow: scroll!important;
+}
+
+
+.containerclass > span{
+    margin: 15px;
+    background-color: rgb(255, 255, 255);
+    font-size: 12px;
+}
+
+.containerclass > span > span{
+    color: rgb(145, 145, 145)
+}
+.conteineroption{
+    font-size: 12px!important
+}
+.RiscCell > p > b{
+    font-size: 10px
+}

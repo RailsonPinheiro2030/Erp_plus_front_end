@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import HomeScreen from "./screens/home";
+import StockModule from './modules/InventoryControl/index';
+import AnalysinScreen from './modules/InventoryControl/src/screens/analysisScreen';
+import RedirectScreen from "./screens/redirectScreen";
+import {Routes,Route, Navigate} from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 function App() {
+  const state = useSelector(state=> state.user)
+
+  const ProtectedRoute = ({children}) => {
+    if (!state.isAuthenticated) {
+      alert('Usuario ou senha invalido')
+      return <Navigate to="/"/>;
+    }
+    return children;
+};
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<HomeScreen/>}/>
+        <Route path="/personalDepartment" element={
+          <ProtectedRoute>
+            <StockModule/>
+          </ProtectedRoute>
+        }/>
+        <Route path="/estoque/*" element={
+          <ProtectedRoute>
+            <StockModule/>
+          </ProtectedRoute>
+        }/>
+        <Route path="/redirect" element={<RedirectScreen/>}/>
+      </Routes>
     </div>
   );
 }

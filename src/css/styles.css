@@ -1,0 +1,8 @@
+.container{
+    background-image: url('../assets/imagens/azure.jpg');
+    width: 100%;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    background-color: #ffffff00
+}
