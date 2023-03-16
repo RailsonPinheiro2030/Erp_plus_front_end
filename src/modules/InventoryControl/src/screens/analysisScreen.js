@@ -5,14 +5,15 @@ import MoreIcon from '@rsuite/icons/legacy/More';
 import { Label } from 'semantic-ui-react';
 import "rsuite/dist/rsuite.min.css";
 import { Header, Divider } from 'semantic-ui-react'
-import styles from '../css/index.module.css'
+import styles from '../css/index.stock.module.css'
 import { useSelector } from 'react-redux';
 import AnaliseForm from '../components/analise'
 import RemindRoundIcon from '@rsuite/icons/RemindRound';
+import '../css/analysis.css'
 
 
 const AnalysinScreen = (props) =>{
-
+    const {setloading} = props;
     const idRef = useRef();
     const[limit, setLimit] = useState(20);
     const[page, setPage] = useState(1);
@@ -23,15 +24,14 @@ const AnalysinScreen = (props) =>{
     const state = useSelector(state=> state)
 
     useEffect(()=>{
-      
+      setloading()
       setValues(state.data.data)
-    },[state.data])
-    useEffect(()=>{
-      riskClass()
-      props.setloading()
-    },[])
+    },[state.data, setloading])
+  
 
-
+    useEffect(() => {
+      riskClass();
+    }, []);
 
     const riskClass = () =>{
       axios({
@@ -241,10 +241,9 @@ const AnalysinScreen = (props) =>{
 
 
     return(
-        <div style={{height: '93vh', padding: '1px', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: 5}}>        
+        <div className='container-analysis'>        
           
-          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', width: '100%', padding: '5px 0px 0px 0px', height: '9%'}}>
-            
+          <div>   
           <AutoComplete size='sm' placeholder="Pesquisar" data={state.data.data ? state.data.data.map(i => i.name) : []} style={{fontSize: '11px'}} />
             <Modal open={open} size="md" onClose={()=>CloseModal()} overflow={false} style={{marginTop: '10px', padding: 0, fontFamily: 'Arial'}}>
             <Modal.Header style={{marginTop: -5}}>
@@ -279,7 +278,7 @@ const AnalysinScreen = (props) =>{
             </Modal>
           </div>
             
-          <div style={{backgroundColor: 'white', width: '100%', height: '100%', padding: '1px'}}>            
+          <div>            
           <Table
               height={'100%'}
               style={{borderRadius: '10px', width: '100%', fontFamily: 'Arial'}}
@@ -385,7 +384,7 @@ const AnalysinScreen = (props) =>{
               </Column>
           </Table>
           </div> 
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end', width: '100%', height: '5%', padding: '2px', backgroundColor: '#e0dede', borderBottomRightRadius: 5, borderBottomLeftRadius: 5}}>
+          <div>
           
           <Pagination
               prev

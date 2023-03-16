@@ -1,28 +1,17 @@
 
-import { useState, useEffect} from 'react';
-import { Table, Progress, IconButton,  InputPicker, Pagination} from 'rsuite';
-import { Icon, Button,Sidebar} from 'semantic-ui-react';
-import AddOutlineIcon from '@rsuite/icons/AddOutline';
-import SortDownIcon from '@rsuite/icons/SortDown';
-import SortUpIcon from '@rsuite/icons/SortUp';
-import RemindRoundIcon from '@rsuite/icons/RemindRound';
-import "rsuite/dist/rsuite.min.css";
-import { useSelector } from 'react-redux';
-import * as styles from './inventario.styles';
-import FormAddNew from '../components/formInsertNew';
+import {useEffect} from 'react';
 
 
 const StockScreen = (props) =>{
-    
+    const { setloading } = props;
     useEffect(()=>{
-        props.setloading()
-    },[])
-    
-  
+        setloading()
+    },[setloading])
+      
 
     return(
-        <div>
-            <h1>inventario</h1>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', width: '100%', height: '100%'}}>
+            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_8uHQ7s.json"  background="transparent"  speed="1"  style={{width: '100%', height: '90%'}}  loop  autoplay></lottie-player>
         </div>
     )
 }

@@ -6,13 +6,13 @@ import {useNavigate} from "react-router-dom";
 import CharacterAuthorizeIcon from '@rsuite/icons/CharacterAuthorize';
 import {changeData} from '../modules/InventoryControl/src/features/dataSlice';
 import { useSelector, useDispatch } from "react-redux";
-import '../css/index.css'
+import '../css/redirect.css'
 
 const RedirectScreen = () =>{
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const state = useSelector(state=> state.user)
-    const[open, setOpen] = useState(true)
+    const[open] = useState(true)
     const[loading, setLoading] = useState(false)
     const[value, setValue] = useState()
 
@@ -59,10 +59,10 @@ const RedirectScreen = () =>{
 
     const ModuleRouter = () =>{
         return(
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', zIndex:1, width: '100%'}}>
-                <CharacterAuthorizeIcon style={{zIndex: '1', fontSize: '150px', color: '#0282cc', margin: 10}}/>
-                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', zIndex: 1, margin: 10}}>
-                    <span style={{fontSize: 20}}>{state.company}</span><span>{state.name}</span>
+            <div className='container_route'>
+                <CharacterAuthorizeIcon/>
+                <div>
+                    <span>{state.company}</span><span>{state.name}</span>
                 </div>
                 <Dropdown
                     placeholder='Selecione o modulo'
@@ -73,7 +73,7 @@ const RedirectScreen = () =>{
                     onChange={handleChange}
                     value={value}
                 />
-                <Button color='blue' style={{zIndex: 1, width: '100%', margin: 30}} loading={loading} onClick={()=>handleClick()}>
+                <Button color='blue' loading={loading} onClick={()=>handleClick()}>
                     Acessar
                 </Button>
                 

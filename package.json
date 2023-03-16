@@ -15,15 +15,12 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
-    "react-scroll": "^1.8.9",
-    "react-scroll-motion": "^0.3.2",
     "react-visibility-sensor": "^5.1.1",
     "react-waypoint": "^10.3.0",
     "redux-persist": "^6.0.0",
     "rsuite": "^5.28.0",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
-    "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

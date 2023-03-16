@@ -31,7 +31,8 @@ const CustomSidenav = ({ appearance, openKeys, expanded, onOpenChange, onExpand,
     paddingBottom: 17,
     paddingTop: 17,
     fontSize: 16,
-    background: '#1f1f1f',
+    fontFamily: 'Arial',
+    backgroundColor: '#303030',
     color: ' #fff'
   };
     return (
@@ -48,22 +49,22 @@ const CustomSidenav = ({ appearance, openKeys, expanded, onOpenChange, onExpand,
           </Sidenav.Header>
           <Sidenav.Body>
             <Nav {...navProps} activeKey={activeKey} onSelect={setActiveKey}>
-              <Nav.Item eventKey="1"  icon={<DashboardIcon />} onClick={()=>navigate("/estoque")} style={{fontSize: '13px', backgroundColor: activeKey === "1" ? 'white' : '#113847', color: activeKey === "1" ? 'black' : 'white'}}>
+              <Nav.Item eventKey="1"  icon={<DashboardIcon />} onClick={()=>navigate("/estoque")} style={{fontSize: '12px', fontFamily:'Helvetica', backgroundColor: activeKey === "1" ? 'white' : '#113847', color: activeKey === "1" ? 'black' : 'white'}}>
                 Dashboard
               </Nav.Item>
-              <Nav.Item eventKey="2"  icon={<StoreIcon/>} onClick={()=>navigate("inventario")} style={{fontSize: '13px', backgroundColor: activeKey === "2" ? 'white' : '#113847', color: activeKey === "2" ? 'black' : 'white'}}>
+              <Nav.Item eventKey="2"  icon={<StoreIcon/>} onClick={()=>navigate("inventario")} style={{fontSize: '12px',fontFamily:'Helvetica', backgroundColor: activeKey === "2" ? 'white' : '#113847', color: activeKey === "2" ? 'black' : 'white'}}>
                 Inventário
               </Nav.Item>
 
-              <Nav.Item eventKey="3" icon={<TreemapIcon/>} style={{fontSize: '13px', backgroundColor: activeKey === "3" ? 'white' : '#113847', color: activeKey === "3" ? 'black' : 'white'}}>
+              <Nav.Item eventKey="3" icon={<TreemapIcon/>} style={{fontSize: '12px',fontFamily:'Helvetica', backgroundColor: activeKey === "3" ? 'white' : '#113847', color: activeKey === "3" ? 'black' : 'white'}}>
                 Armazém
               </Nav.Item>
 
-              <Nav.Item eventKey="4" icon={<HistoryIcon/>} style={{fontSize: '13px', backgroundColor: activeKey === "4" ? 'white' : '#113847', color: activeKey === "4" ? 'black' : 'white'}}>
+              <Nav.Item eventKey="4" icon={<HistoryIcon/>} style={{fontSize: '12px',fontFamily:'Helvetica', backgroundColor: activeKey === "4" ? 'white' : '#113847', color: activeKey === "4" ? 'black' : 'white'}}>
                 Historico
               </Nav.Item>
 
-              <Nav.Item eventKey="5" icon={<LineChartIcon/>} style={{fontSize: '13px', backgroundColor: activeKey === "5" ? 'white' : '#113847', color: activeKey === "5" ? 'black' : 'white'}} onClick={()=>navigate("/estoque/analise")}>
+              <Nav.Item eventKey="5" icon={<LineChartIcon/>} style={{fontSize: '12px',fontFamily:'Helvetica', backgroundColor: activeKey === "5" ? 'white' : '#113847', color: activeKey === "5" ? 'black' : 'white'}} onClick={()=>navigate("/estoque/analise")}>
                 Análise crítica
               </Nav.Item>
               

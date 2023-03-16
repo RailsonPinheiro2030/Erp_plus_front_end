@@ -15,6 +15,7 @@ import IntlCurrencyInput from "react-intl-currency-input"
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { changeData, uploadData} from '../features/dataSlice';
+import '../css/form.css'
 
 const currencyConfig = {
     locale: "pt-BR",
@@ -35,10 +36,13 @@ const currencyConfig = {
 
 function FormAddNew(){
     const state = useSelector(state=> state)
-    const[arrayfilter, setArrayFilter] = useState([])
     const dispatch = useDispatch()
+    const[arrayfilter, setArrayFilter] = useState([])
     const[groups, setGroup] = useState([])
     const[supplier, setSupplier] = useState([])
+    const[errorgroup, setErrorGroup] = useState(false)
+    const[errorsupplier, setErrorSupplier] = useState(false)
+    const[erroramz, setErrorAmz] = useState(false)
     const [inputs, setInputs] = useState({
         "company_cnpj": state.user.company_cnpj
     });
@@ -136,34 +140,52 @@ function FormAddNew(){
     }
 
     function AddItemGrup(value){
-        setGroup((prev) => [...prev, value.replace("Add", "")])
+        if (value !== ''){
+            let valor = value.replace("Add", "")
+            setGroup((prev) => [...prev, valor.toUpperCase()])
+        }
+        
     }
 
     function AddItemSupplier(value){
-        setSupplier((prev)=>[...prev, value.replace("Add", "")])
+        if(value !== ''){
+            let valor = value.replace("Add", "")
+            setSupplier((prev)=>[...prev, valor.toUpperCase()])
+        }
+        
     }
 
 
+    
+
     const handleGet = () => {
         
-        axios({
-            url: "http://railsonpinheiro.pythonanywhere.com/stock/insert",
-            method: 'POST',
-            headers:{
-                'Content-type': 'application/json; charset=UTF-8',
-                'Authorization': `Bearer ${state.user.token}`
-            },
-            data: inputs
-        }).then(function(response){
-            if(response.status === 200){
-                setLoadinForm({...loadingForm, loading: false, success: true})
-                dispatch(changeData(response.data.data))
-                setTimeout(RemoveMessage, 2000)
-            }
-        }).catch(function(error){
-            setLoadinForm({...loadingForm, loading: false, error: true}) 
-            setTimeout(RemoveMessage, 2000)
-        })
+        setLoadinForm({...loadingForm, loading: true,})
+            axios({
+                url: "http://railsonpinheiro.pythonanywhere.com/stock/insert",
+                method: 'POST',
+                headers:{
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Authorization': `Bearer ${state.user.token}`
+                },
+                data: inputs
+            }).then(function(response){
+                if(response.status === 200){
+                    setLoadinForm({...loadingForm, loading: false, success: true})
+                    dispatch(changeData(response.data.data))
+                    setTimeout(RemoveMessage, 2000)
+                    setInputs({"company_cnpj": state.user.company_cnpj})
+                    
+                }
+            }).catch(function(error){
+                setLoadinForm({...loadingForm, loading: false, error: true}) 
+            })
+        
+            
+            
+            
+        
+        
     }
 
 
@@ -173,15 +195,33 @@ function FormAddNew(){
 
 
     const HandleDropdownSuplies = (value) => {
-        setInputs(values => ({...values, 'supplier': value.toUpperCase()}))
+        if(value === ''){
+            setErrorSupplier(true)
+        }else{
+            setErrorSupplier(false)
+            setInputs(values => ({...values, 'supplier': value.toUpperCase()}))
+        }
+        
     };
 
     const HandleDropdownGroup = (value) => {
-        setInputs(values => ({...values, 'group_type': value.toUpperCase()}))
+        if(value === ''){
+            setErrorGroup(true)
+        }else{
+            setErrorGroup(false)
+            setInputs(values => ({...values, 'group_type': value.toUpperCase()}))
+        }
+        
     };
 
     const HandleDropdownAmz = (value) => {
-        setInputs(values => ({...values, 'storage': value.toUpperCase()}))
+        if(value === ''){
+            setErrorAmz(true)
+        }else{
+            setErrorAmz(false)
+            setInputs(values => ({...values, 'storage': value.toUpperCase()}))
+        }
+        
     };
 
     return(
@@ -190,7 +230,6 @@ function FormAddNew(){
                     control={Input}
                     label='Codigo'
                     placeholder='deixe em braco para aleatorio'
-                    type='number'
                     value={inputs.codigo || ""}
                     error={loadingForm.coderror}
                     required
@@ -219,43 +258,38 @@ function FormAddNew(){
                 />
                 </Form.Group>
                 <Form.Group widths='equal'>
-                <Form.Field>
+                <Form.Field required error={errorgroup}>
                     <label>Grupo</label>
                     <Dropdown
                     options={PlotGroup()[0]}
                     placeholder='Grupo'
                     search
                     selection
-                    required
-                    fluid
                     allowAdditions
                     onAddItem={(e)=>AddItemGrup(e.target.innerText)}
                     onChange={(e)=>HandleDropdownGroup(e.target.innerText)}
+                    menuTransition
                     />
                 </Form.Field>
-                <Form.Field>
+                <Form.Field required error={erroramz}>
                     <label>Armazém</label>
                     <Dropdown
                     options={PlotAmz()[0]}
                     placeholder='Armazém'
-                    required
                     search
                     selection
-                    fluid
                     onChange={(e)=>HandleDropdownAmz(e.target.innerText)}
                     />
                 </Form.Field>
                 </Form.Group>
                 
-                <Form.Field>
+                <Form.Field required error={errorsupplier}>
                     <label>Fornecedor</label>
                     <Dropdown
                     options={PlotSupplier()[0]}
                     placeholder='Fornecedor'
                     search
                     selection
-                    required
-                    fluid
                     allowAdditions
                     onAddItem={(e)=>AddItemSupplier(e.target.innerText)}
                     onChange={(e)=>HandleDropdownSuplies(e.target.innerText)}
@@ -265,7 +299,7 @@ function FormAddNew(){
                 <Form.Field
                     control={Input}
                     label='Prazo de disponibilidade'
-                    placeholder='dia'
+                    placeholder='Disponivel em estoque'
                     required
                     type='number'
                     name='lead_time_new'
@@ -286,8 +320,8 @@ function FormAddNew(){
 
                 <Form.Field
                     control={Input}
-                    label='Quantidade minima'
-                    placeholder='Quantidade minima em estoque'
+                    label='Estoque mínimo'
+                    placeholder='Quantidade mínima em estoque'
                     type='number'
                     required
                     name='minimum_quantity_stock'
@@ -298,16 +332,16 @@ function FormAddNew(){
                 
                 <Form.Group widths='equal'>
                 
-                <Form.Field>
+                <Form.Field required>
                     <label>Valor unitario</label>
                     <IntlCurrencyInput currency="BRL" name='cost_price' value={inputs.cost_price} config={currencyConfig}
-                    onChange={handleCurrencyCost} required/>
+                    onChange={handleCurrencyCost}/>
                 </Form.Field>
 
-                <Form.Field>
+                <Form.Field required>
                     <label>Valor de mercado</label>
                     <IntlCurrencyInput currency="BRL" name='exit_price' value={inputs.exit_price} config={currencyConfig}
-                    onChange={handleCurrencyExit} required/>
+                    onChange={handleCurrencyExit}/>
                 </Form.Field>
                 
                 

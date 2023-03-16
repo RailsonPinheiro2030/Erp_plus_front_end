@@ -1,0 +1,13 @@
+#my-dropdown{
+    white-space: nowrap;
+    max-width: 250px;
+
+}
+
+.ui.selection.dropdown .menu .item .text {
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+  }
+.ui.selection.dropdown .menu > .item {
+    font-size: 10px!important;
+  }

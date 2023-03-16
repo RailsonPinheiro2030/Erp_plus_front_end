@@ -5,6 +5,7 @@ import { changeUser } from "../features/userSlice";
 import { changeConfig } from '../features/configSlice';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import '../css/loginForm.css'
 
 
 const LoginComponent = (props) =>{
@@ -56,10 +57,10 @@ const LoginComponent = (props) =>{
     }
 
     return(
-        <div style={{border:'none', height: '100%', width: '100%', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start',backgroundColor: 'white'}}>
-            <Button icon color="gray" style={{fontSize: '10px', marginTop: '-10px', marginRight: '90%'}} onClick={CloseModal}><Icon name='x' style={{fontSize: '10px'}}/></Button> 
-            <Header style={{}}>Bem vindo!</Header>
-            <div style={{display:'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', margin: '20px', width: '100%', backgroundColor: 'white', padding: '10px', height: '100%'}}>
+        <div className='container-login-form'>
+            <Button icon color="gray" onClick={CloseModal} style={{fontSize:'8px', marginLeft: '-90%'}}><Icon name='x' style={{fontSize: '10px'}}/></Button> 
+            <Header style={{fontSize: '25px', color: '#535353'}}>Bem vindo!</Header>
+            <div>
                 <div style={{width: '100%', margin: '15px'}}>
                     <label>Username</label>
                     <Input icon='user' iconPosition='left' placeholder='username ou email' style={{width: '100%'}} onChange={(e)=>setLogin({...login, username: e.target.value})}/>

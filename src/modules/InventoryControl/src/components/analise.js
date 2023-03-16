@@ -1,8 +1,8 @@
-import { useEffect, useState, useContext } from 'react'
-import { Divider, Button, Progress} from 'rsuite';
+import { useEffect, useState } from 'react'
+import { Button, Progress} from 'rsuite';
 import { Tab } from 'semantic-ui-react'
 import axios from 'axios';
-import styles from '../css/index.module.css'
+import styles from '../css/index.stock.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { analyticData } from '../features/dataSlice';
 
@@ -12,14 +12,15 @@ import { analyticData } from '../features/dataSlice';
 
 function AnaliseForm(props){ 
   const dispatch = useDispatch()
+  const { setloading } = props
   const state = useSelector(state=> state)
-  const[details, setDetails] = useState([props.items]);
   const[matrix, setMatrix] = useState([props.class]);
   const[values, setValues] = useState(props.items)
   const[result, setResult] = useState(0)
+  const[resttime, setRestTime] = useState(0)
   useEffect(() => {
-      props.loading()
-    }, []);
+    setloading()
+    }, [setloading]);
 
 
     
@@ -50,9 +51,9 @@ function AnaliseForm(props){
         ...values,
         Highest_criticality_of_assets:sum,
         potential_existing_risk: avaliable.map(i=>i.risk)[0],
-        lead_time_new: time
       }
       setValues(updateValues)
+      setRestTime(time)
       setResult(result)
       
   }, [values.cost_operation,values.volume_production,values.health_security,values.environment, values.lead_time_new, values.potential_existing_risk]);
@@ -92,6 +93,7 @@ function AnaliseForm(props){
       ...values,
       [name]: value
     }
+    
     setValues(updateValues)
   }
 
@@ -129,7 +131,7 @@ function AnaliseForm(props){
               <span>
                 Lead time
                   <br/>
-                  <span>{Math.round((values.lead_time_new / result) * 100)}%</span>
+                  <span>{Math.round((resttime / result) * 100)}%</span>
               </span>
               <span>
                 Impacto na saude
@@ -187,7 +189,7 @@ function AnaliseForm(props){
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', margin: '10px'}}>  
               <div style={{width: '100%'}}>
               <label style={{fontFamily: 'Arial', fontSize: '15px', padding: '2px'}}>Lead Time</label>
-              <input placeholder="Lead time" value={values.lead_time_new} onChange={handleChange} name='lead_time_new' type='number' style={{fontSize: '15px', width: '100%', border: '1px solid #c9c6c6', outline: 'none', padding: '5px', borderRadius: '5px'}}/>
+              <input placeholder="Lead time" value={values.lead_time_new || ""} onChange={handleChange} name='lead_time_new' type='number' style={{fontSize: '15px', width: '100%', border: '1px solid #c9c6c6', outline: 'none', padding: '5px', borderRadius: '5px'}}/>
               </div>
               
               <div style={{width: '100%'}}>
