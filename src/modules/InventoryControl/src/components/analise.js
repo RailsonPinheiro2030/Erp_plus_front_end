@@ -12,15 +12,12 @@ import { analyticData } from '../features/dataSlice';
 
 function AnaliseForm(props){ 
   const dispatch = useDispatch()
-  const { setloading } = props
   const state = useSelector(state=> state)
   const[matrix, setMatrix] = useState([props.class]);
   const[values, setValues] = useState(props.items)
   const[result, setResult] = useState(0)
   const[resttime, setRestTime] = useState(0)
-  useEffect(() => {
-    setloading()
-    }, [setloading]);
+  ;
 
 
     
