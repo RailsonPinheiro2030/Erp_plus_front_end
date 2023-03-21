@@ -1,6 +1,6 @@
 
 import {persistStore,persistReducer,} from 'redux-persist';
-import {combineReducers,configureStore,getDefaultMiddleware,} from '@reduxjs/toolkit';
+import {combineReducers,configureStore} from '@reduxjs/toolkit';
 import dataReducer from '../modules/InventoryControl/src/features/dataSlice'
 import userReducer from './userSlice'
 import configReduce from './configSlice'

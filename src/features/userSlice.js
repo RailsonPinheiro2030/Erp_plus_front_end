@@ -6,8 +6,8 @@ export const slice = createSlice({
     name: 'user',
     initialState:{
         name: '',
+        lastName: '',
         company: '',
-        company_cnpj: '',
         company_id: '',
         isAdmin: '',
         isAuthenticated: '',
@@ -16,10 +16,11 @@ export const slice = createSlice({
     },
     reducers:{
         changeUser(state,{payload}){
-            return {...state, isAuthenticated: payload.token !== "" ? true: false, isAdmin: payload.isAdmin, company: payload.company, company_cnpj: payload.company_cnpj, name: payload.full_name, token: payload.token, company_id: payload.company_id}
+            
+            return {...state, isAuthenticated: payload.token !== "" ? true: false, isAdmin: payload.isadmin, company: payload.company, company_id:payload.company_id, name: payload.first_name, lastName: payload.last_name, token: payload.access}
         },
         logout(state){
-            return {...state, isAuthenticated: '', name: '', company: '', isAdmin: '', company_cnpj: '', token: '', company_id: ''}
+            return {...state, isAuthenticated: '', name: '', company: '', company_id:'', isAdmin: '', token: '', first_name: ''}
         }
     }
 })

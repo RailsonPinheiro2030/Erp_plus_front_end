@@ -1,6 +1,5 @@
 import HomeScreen from "./screens/home";
 import StockModule from './modules/InventoryControl/index';
-import AnalysinScreen from './modules/InventoryControl/src/screens/analysisScreen';
 import RedirectScreen from "./screens/redirectScreen";
 import {Routes,Route, Navigate} from "react-router-dom";
 import { useSelector } from "react-redux";

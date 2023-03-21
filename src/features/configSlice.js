@@ -6,17 +6,21 @@ export const slice = createSlice({
     name: 'config',
     initialState:{
         storage:[],
-
+        riskClass: [],
 
     },
     reducers:{
         changeConfig(state,{payload}){
-            return {...state, storage:[payload.storage.map(i=>({"storage": i.storages, "location": i.location}))]}
+            return {...state, storage:[payload.storages.map(i=>({"storage": i.name, "location": i.location}))]}
         },
+        changeRisk(state, {payload}){
+            return{...state, riskClass:payload}
+        }
+
     }
 })
 
-export const{changeConfig} = slice.actions
+export const{changeConfig, changeRisk} = slice.actions
 
 export const selectUser = state => state.config
 

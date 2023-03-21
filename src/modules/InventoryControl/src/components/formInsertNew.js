@@ -15,7 +15,8 @@ import IntlCurrencyInput from "react-intl-currency-input"
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { changeData, uploadData} from '../features/dataSlice';
-import '../css/form.css'
+import '../css/form.css';
+import { postEstoque } from '../../../../services/api';
 
 const currencyConfig = {
     locale: "pt-BR",
@@ -44,7 +45,7 @@ function FormAddNew(){
     const[errorsupplier, setErrorSupplier] = useState(false)
     const[erroramz, setErrorAmz] = useState(false)
     const [inputs, setInputs] = useState({
-        "company_cnpj": state.user.company_cnpj
+        company_id: state.user.company_id
     });
     const[loadingForm, setLoadinForm] = useState({
         'loading': false,
@@ -159,40 +160,25 @@ function FormAddNew(){
     
 
     const handleGet = () => {
-        
         setLoadinForm({...loadingForm, loading: true,})
-            axios({
-                url: "http://railsonpinheiro.pythonanywhere.com/stock/insert",
-                method: 'POST',
-                headers:{
-                    'Content-type': 'application/json; charset=UTF-8',
-                    'Authorization': `Bearer ${state.user.token}`
-                },
-                data: inputs
-            }).then(function(response){
-                if(response.status === 200){
-                    setLoadinForm({...loadingForm, loading: false, success: true})
-                    dispatch(changeData(response.data.data))
-                    setTimeout(RemoveMessage, 2000)
-                    setInputs({"company_cnpj": state.user.company_cnpj})
-                    
-                }
-            }).catch(function(error){
-                setLoadinForm({...loadingForm, loading: false, error: true}) 
-            })
-        
-            
-            
-            
-        
-        
+        const Promise = postEstoque('api/estoque/',inputs, state.user.token)
+        Promise.then(function(response){
+            dispatch(uploadData(response.data))
+            setInputs({company_id: state.user.company_id})
+            setLoadinForm({...loadingForm, loading: false, success: true})
+            setTimeout(()=>{
+                setLoadinForm({...loadingForm, success: false})
+            },3000)
+        }).catch(function(error){
+            setLoadinForm({...loadingForm, loading: false, error: true})
+            setTimeout(()=>{
+                setLoadinForm({...loadingForm, error: false})
+            },3000)
+        })  
     }
 
 
-    function RemoveMessage(){ 
-        setLoadinForm({...loadingForm, success: false})
-    }
-
+   
 
     const HandleDropdownSuplies = (value) => {
         if(value === ''){

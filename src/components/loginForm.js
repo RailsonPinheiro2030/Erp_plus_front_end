@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { changeUser } from "../features/userSlice";
 import { changeConfig } from '../features/configSlice';
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import '../css/loginForm.css'
+import { postData } from '../services/api';
 
 
 const LoginComponent = (props) =>{
@@ -14,7 +14,6 @@ const LoginComponent = (props) =>{
     const[login, setLogin] = useState({
         'username': '',
         'password': '',
-        'saved': false
     })
     const dispatch = useDispatch();
 
@@ -25,35 +24,18 @@ const LoginComponent = (props) =>{
 
     function handleLogin(){
         setLoading(true)
-        axios({
-            url: `http://railsonpinheiro.pythonanywhere.com/login`,
-            method: 'POST',
-            headers:{
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-            data:{
-                "username": login.username,
-                "password": login.password
-            }
-  
-        }).then(function(response){
-            if(response.status === 200){
-                setLoading(false)
-                
-                dispatch(changeUser(response.data))
-                dispatch(changeConfig(response.data))
-                navigate("redirect")
-                
-                
-            }
-        }).catch(function(response){
-            if(response.status === 500){
-                alert("Error Usuario ou senha invalido")
-            }else{
-                alert("Error Usuario ou senha invalido")
-            }
+        const postDataPromise = postData('/api/auth/',login)
+        postDataPromise.then(function(response){
+            dispatch(changeUser(response))
+            dispatch(changeConfig(response))
             setLoading(false)
+            navigate("redirect")
+        
+        }).catch(function(error){
+            setLoading(false)
+            alert(`Error ${error.message}`)
         })
+        
     }
 
     return(

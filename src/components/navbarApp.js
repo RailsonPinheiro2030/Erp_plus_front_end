@@ -1,8 +1,10 @@
 import {Avatar, IconButton, Badge, Dropdown, Popover, Whisper } from 'rsuite';
 import NoticeIcon from '@rsuite/icons/Notice';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const NavbarApp = () =>{
+  const navigate = useNavigate()
     const state = useSelector(state=> state.user)
 
 
@@ -28,7 +30,7 @@ const NavbarApp = () =>{
             <Dropdown.Item divider />
             <Dropdown.Item>ajuda</Dropdown.Item>
             <Dropdown.Item>Configurações</Dropdown.Item>
-            <Dropdown.Item  >Sair</Dropdown.Item>
+            <Dropdown.Item  onClick={()=>navigate('/redirect')}>Sair</Dropdown.Item>
             </Dropdown.Menu>
           </Popover>
         );
@@ -39,7 +41,7 @@ const NavbarApp = () =>{
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: '2px', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', width: '100%', margin: '2px'}}>
                   <div style={{marginRight: '10px'}}> 
-                    <Badge content={20}>
+                    <Badge content={false}>
                         <IconButton icon={<NoticeIcon/>} size="sm"/>
                     </Badge>
                   </div>

@@ -8,7 +8,7 @@ export const slice = createSlice({
 
     },
     reducers:{
-        changeData(state,{payload}){    
+        changeData(state,{payload}){   
         return {...state, data: payload}
         },
         removeData(state){

@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Table, Pagination, Popover, Whisper, Dropdown, Progress,  Tooltip, IconButton, Modal, AutoComplete } from 'rsuite';
+import { Table, Pagination, Popover, Whisper, Dropdown, Progress,  IconButton, Modal,  InputGroup, Input } from 'rsuite';
 import MoreIcon from '@rsuite/icons/legacy/More';
 import { Label } from 'semantic-ui-react';
 import "rsuite/dist/rsuite.min.css";
@@ -9,7 +9,8 @@ import styles from '../css/index.stock.module.css'
 import { useSelector } from 'react-redux';
 import AnaliseForm from '../components/analise'
 import RemindRoundIcon from '@rsuite/icons/RemindRound';
-import '../css/analysis.css'
+import '../css/analysis.css';
+import SearchIcon from '@rsuite/icons/Search';
 
 
 const AnalysinScreen = (props) =>{
@@ -18,6 +19,7 @@ const AnalysinScreen = (props) =>{
     const[limit, setLimit] = useState(20);
     const[page, setPage] = useState(1);
     const[values, setValues] = useState([]);
+    const[rvalues, setRValues] = useState([]);
     const[analisar, setAnalisar] = useState();
     const[open, setOpen] = useState(false);
     const[matrix, setMatrix] = useState([]);
@@ -26,29 +28,10 @@ const AnalysinScreen = (props) =>{
     useEffect(()=>{
       setloading()
       setValues(state.data.data)
+      setRValues(state.data.data)
+      setMatrix(state.config.riskClass)
     },[state.data, setloading])
   
-
-    useEffect(() => {
-      riskClass();
-    }, []);
-
-    const riskClass = () =>{
-      axios({
-        url: `http://railsonpinheiro.pythonanywhere.com/config/classes`,
-        method: 'GET',
-        headers:{
-          'Content-type': 'application/json; charset=UTF-8',
-          'Authorization': `Bearer ${state.user.token}`
-        },
-      }).then(function(response){
-        if(response.status === 200){
-          setMatrix(response.data.data)
-        }
-      })
-    }
-
-
     const { Column, HeaderCell, Cell } = Table;
     
     const handleChangeLimit = dataKey => {
@@ -165,6 +148,7 @@ const AnalysinScreen = (props) =>{
         </Cell>
       );
     };
+    
 
 
    
@@ -239,12 +223,28 @@ const AnalysinScreen = (props) =>{
     });
 
 
+    const HandleFilter = (text) =>{
+      if (text.length > 3){
+          const dts = values.filter(item=>(item.name.toUpperCase().includes(text.toUpperCase()) || item.codigo.toUpperCase().includes(text.toUpperCase()) || item.group_type.toUpperCase().includes(text.toUpperCase())) ? []: null)
+          setValues(dts)
+      }else(
+          setValues(rvalues)
+      )
+
+
+  }
+
 
     return(
         <div className='container-analysis'>        
           
           <div>   
-          <AutoComplete size='sm' placeholder="Pesquisar" data={state.data.data ? state.data.data.map(i => i.name) : []} style={{fontSize: '11px'}} />
+            <InputGroup inside style={{width: '15%'}}>
+              <Input size='sm' onChange={(text)=>HandleFilter(text)}/>
+              <InputGroup.Addon>
+                <SearchIcon />
+            </InputGroup.Addon>
+            </InputGroup>
             <Modal open={open} size="md" onClose={()=>CloseModal()} overflow={false} style={{marginTop: '10px', padding: 0, fontFamily: 'Arial'}}>
             <Modal.Header style={{marginTop: -5}}>
                 <Modal.Title style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
@@ -281,7 +281,7 @@ const AnalysinScreen = (props) =>{
           <div>            
           <Table
               height={'100%'}
-              style={{borderRadius: '10px', width: '100%', fontFamily: 'Arial'}}
+              style={{borderRadius: '10px', width: '100%', fontFamily: 'Arial', color :'#2b2a2a'}}
               data={data}
               hover={true}
               loading={data === [] ? true: false}
@@ -293,16 +293,16 @@ const AnalysinScreen = (props) =>{
               }}
           >
 
-              <Column width={100} align="left" fixed>
+              <Column width={100} align="left" fixed fullText>
               <HeaderCell>Codigo</HeaderCell>
               <Cell dataKey="codigo" style={{ fontSize: '12px' }}/>
               </Column>
 
-              <Column width={210} align="left" fixed>
+              <Column width={210} align="left" fixed fullText>
               <HeaderCell>Nome</HeaderCell>
               <DeskCell dataKey="name" style={{ fontSize: '12px' }}/>
               </Column>
-              <Column width={300} align="left">
+              <Column width={300} align="left" fullText>
               <HeaderCell>Grupo</HeaderCell>
               <Cell dataKey="group_type" style={{ fontSize: '11px' }}/>
               </Column>

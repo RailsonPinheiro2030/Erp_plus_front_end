@@ -1,12 +1,13 @@
 
 import { Button, Modal, Dropdown} from 'semantic-ui-react'
 import { useState } from 'react';
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import CharacterAuthorizeIcon from '@rsuite/icons/CharacterAuthorize';
 import {changeData} from '../modules/InventoryControl/src/features/dataSlice';
+import { changeRisk } from '../features/configSlice';
 import { useSelector, useDispatch } from "react-redux";
 import '../css/redirect.css'
+import { getData } from '../services/api';
 
 const RedirectScreen = () =>{
     const navigate = useNavigate()
@@ -17,8 +18,8 @@ const RedirectScreen = () =>{
     const[value, setValue] = useState()
 
     const options = [
-        { key: 'af', value: '/stock/select', text: 'gestão de estoque' },
-        { key: 'ax', value: '/personadepartment/select', text: 'gestão departamento pessoal' },
+        { key: 'af', value: 'api/estoque/', text: 'gestão de estoque' },
+        { key: 'ax', value: '/', text: 'gestão departamento pessoal' },
     ];
 
     
@@ -27,29 +28,17 @@ const RedirectScreen = () =>{
 
     const handleClick = () =>{
         setLoading(true)
-        axios({
-            url: `http://railsonpinheiro.pythonanywhere.com${value}`,
-            method: 'POST',
-            headers:{
-                'Content-type': 'application/json; charset=UTF-8',
-                'Authorization': `Bearer ${state.token}`
-            },
-            data:{
-                "company_cnpj": state.company_cnpj
-            }
-        }).then(function(response){
-            if(response.status === 200){
-                dispatch(changeData(response.data.data))
-                navigate("/estoque")
-                setLoading(false)
-                
-                
-            }
-        }).catch(function(error){
-            alert("error")
+        const Promise = getData(value, state.token)
+        Promise.then(function(response){
+            dispatch(changeData(response.data))
+            dispatch(changeRisk(response.classe_de_risco))
+            navigate("/estoque")
             setLoading(false)
-
+        }).catch(function(error){
+            alert(`Error ${error.message}`)
+            setLoading(false)
         })
+        
     }
 
     const handleChange = (e, { value }) => {

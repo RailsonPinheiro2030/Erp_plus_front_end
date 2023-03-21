@@ -1,6 +1,6 @@
 
 import { useState, useEffect} from 'react';
-import { Table, IconButton, Pagination, AutoComplete} from 'rsuite';
+import { Table, IconButton, Pagination, Input, InputGroup} from 'rsuite';
 import { Icon, Button,Sidebar} from 'semantic-ui-react';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import SortDownIcon from '@rsuite/icons/SortDown';
@@ -8,22 +8,26 @@ import SortUpIcon from '@rsuite/icons/SortUp';
 import RemindRoundIcon from '@rsuite/icons/RemindRound';
 import { useSelector } from 'react-redux';
 import FormAddNew from '../components/formInsertNew';
-import '../css/inventory.css'
-
+import '../css/inventory.css';
+import SearchIcon from '@rsuite/icons/Search';
 
 
 
 const Inventario = (props) =>{
     const { setloading } = props;
     const[values, setValues] = useState([]);
-    const state = useSelector(state=> state.data)
+    const[rvalues, setRValues] = useState([]);
+    const state = useSelector(state=> state)
     const[openform, setOpenForm] = useState(false)
     const[page, setPage] = useState(1);
     const[limit, setLimit] = useState(20);
 
     useEffect(()=>{
         setloading()
-        setValues(state.data ? state.data:[])
+        setValues(state.data.data ? state.data.data:[].sort ( (a, b) => {
+            return new Date(b.datatime) - new Date(a.datatime);
+        }))
+        setRValues(state.data ? state.data:[])
     },[state.data, setloading])
     
 
@@ -40,6 +44,21 @@ const Inventario = (props) =>{
       const end = start + limit;
       return i >= start && i < end;
     });
+
+
+
+   
+
+    const HandleFilter = (text) =>{
+        if (text.length > 3){
+            const dts = values.filter(item=>(item.name.toUpperCase().includes(text.toUpperCase()) || item.codigo.toUpperCase().includes(text.toUpperCase()) || item.group_type.toUpperCase().includes(text.toUpperCase())) ? []: null)
+            setValues(dts)
+        }else(
+            setValues(rvalues)
+        )
+
+    }
+
 
 
     const MinimumStock = ({ rowData, dataKey, ...props }) => {
@@ -82,7 +101,13 @@ const Inventario = (props) =>{
             </Sidebar>
             
             <div>
-            <IconButton icon={<AddOutlineIcon style={{color: 'green'}}/>} style={{width: '10%'}} onClick={()=>setOpenForm(prev=>!prev)}>Novo</IconButton><AutoComplete size='sm' placeholder="Pesquisar" data={state.data ? state.data.map(i => i.name) : []} style={{fontSize: '11px'}} />
+            <IconButton icon={<AddOutlineIcon style={{color: 'green'}}/>} style={{width: '10%'}} onClick={()=>setOpenForm(prev=>!prev)}>Novo</IconButton>
+            <InputGroup inside style={{width: '15%'}}>
+            <Input size='sm' onChange={(text)=>HandleFilter(text)}/>
+            <InputGroup.Addon>
+                <SearchIcon />
+            </InputGroup.Addon>
+            </InputGroup>
             </div>  
             <div>            
             <Table
@@ -111,9 +136,6 @@ const Inventario = (props) =>{
                 <HeaderCell>Descrição</HeaderCell>
                 <Cell dataKey="description" style={{ fontSize: '11px' }}/>
             </Column>
-
-
-
 
             <Column width={300} align="left" fullText>
                 <HeaderCell>Grupo</HeaderCell>
@@ -206,7 +228,7 @@ const Inventario = (props) =>{
                 Estoque minimo
             </HeaderCell>
             <MinimumStock dataKey="minimum_quantity_stock" style={{fontSize: '11px'}}/>
-            </Column>  
+            </Column> 
             
             </Table>
             </div> 

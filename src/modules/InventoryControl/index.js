@@ -6,6 +6,7 @@ import AnalysinScreen from './src/screens/analysisScreen';
 import Inventario from './src/screens/inventario';
 import {useState, useEffect} from 'react';
 import Layout from './src/components/layout';
+import HistoryScreen from './src/screens/history';
 
 const StockModule = () => {
     const location = useLocation()
@@ -35,6 +36,7 @@ const StockModule = () => {
                 <Route path="/" element={<StockScreen setloading={HandleLoading}/>}/>
                 <Route path="/inventario" element={<Inventario setloading={HandleLoading}/>} />
                 <Route path="/analise" element={<AnalysinScreen setloading={HandleLoading}/>} />
+                <Route path='/historico' element={<HistoryScreen setLoading={HandleLoading}/>}/>
             </Routes>
         </Layout>
         </div>

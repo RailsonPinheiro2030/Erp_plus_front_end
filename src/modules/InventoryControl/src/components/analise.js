@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Button, Progress} from 'rsuite';
 import { Tab } from 'semantic-ui-react'
-import axios from 'axios';
 import styles from '../css/index.stock.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { analyticData } from '../features/dataSlice';
+import { patchEstoque } from '../../../../services/api';
 
 
 
@@ -19,12 +19,11 @@ function AnaliseForm(props){
   const[resttime, setRestTime] = useState(0)
   ;
 
-
     
   useEffect(() => {
       
       let time = 0
-      if ((values.lead_time_new == 0) || (values.lead_time_new == undefined)){
+      if ((values.lead_time_new === 0) || (values.lead_time_new === undefined)){
         time = 0
       }else if(values.lead_time_new <= 3){
         time = 1
@@ -39,8 +38,8 @@ function AnaliseForm(props){
       }
       var mxsum = [values.cost_operation,values.volume_production,values.health_security,values.environment,time]
       var maior = Math.max.apply(null, mxsum);
-      const avaliable = matrix[0].filter(item => item.avali === values.failure_frequency[0] && parseInt(item.consequence) === parseInt(maior));
-
+      const avaliable = matrix[0].filter(item => item.avali === values.failure_frequency[0] && parseInt(item.consequencia) === parseInt(maior));
+      console.log(matrix)
       var result = parseInt(values.cost_operation) + parseInt(values.volume_production) + parseInt(values.health_security) + parseInt(values.environment) + parseInt(time)
       let sum = Math.round((result / 25) * 100)
       
@@ -53,6 +52,7 @@ function AnaliseForm(props){
       setRestTime(time)
       setResult(result)
       
+      
   }, [values.cost_operation,values.volume_production,values.health_security,values.environment, values.lead_time_new, values.potential_existing_risk]);
     
    
@@ -60,23 +60,13 @@ function AnaliseForm(props){
     
   const handleUpdate = () => {
     
-    
-    axios({
-        url: `http://railsonpinheiro.pythonanywhere.com/stock/update/analisar`,
-        method: 'POST',
-        headers:{
-          'Content-type': 'application/json; charset=UTF-8',
-          'Authorization': `Bearer ${state.user.token}`
-        },
-        data:{
-          data: values
-        }
-      }).then(function(response){
-        if(response.status === 200){
-          dispatch(analyticData(values))
-          props.fun()
-        }
-      })
+    const Promise = patchEstoque(`api/estoque/${values.id}/`, values, state.user.token)
+    Promise.then(function(response){
+      dispatch(analyticData(response))
+      props.fun()
+    }).catch(function(error){
+      alert(`Error ${error.message}`)
+    })
   }
   
   

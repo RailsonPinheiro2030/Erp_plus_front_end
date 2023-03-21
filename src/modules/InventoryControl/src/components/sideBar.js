@@ -60,7 +60,7 @@ const CustomSidenav = ({ appearance, openKeys, expanded, onOpenChange, onExpand,
                 Armazém
               </Nav.Item>
 
-              <Nav.Item eventKey="4" icon={<HistoryIcon/>} style={{fontSize: '12px',fontFamily:'Helvetica', backgroundColor: activeKey === "4" ? 'white' : '#113847', color: activeKey === "4" ? 'black' : 'white'}}>
+              <Nav.Item eventKey="4" icon={<HistoryIcon/>} style={{fontSize: '12px',fontFamily:'Helvetica', backgroundColor: activeKey === "4" ? 'white' : '#113847', color: activeKey === "4" ? 'black' : 'white'}} onClick={()=>navigate("historico")}>
                 Historico
               </Nav.Item>
 
