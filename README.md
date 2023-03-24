@@ -30,7 +30,7 @@
 </h1>
 
 ## link de teste
-https://erp-plus-front-end-2qpn.vercel.app/
+https://erp-plus-front-end.vercel.app/
 
 
 ### Pré-requisitos
