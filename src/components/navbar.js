@@ -41,7 +41,7 @@ const NavBar = (props) =>{
 
     return(
         <>
-        <CustomNavbar  activeKey={activeKey} onSelect={setActiveKey} className={`navbar ${ props.classes ? 'fade' : ''}`}/>
+        <CustomNavbar  activeKey={activeKey} onSelect={setActiveKey} className={props.class ? 'navbar active' : 'navbar'}/>
         </>
         
 

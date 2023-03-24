@@ -8,13 +8,15 @@ import { useSelector } from "react-redux";
 function App() {
   const state = useSelector(state=> state.user)
 
+  
+
   const ProtectedRoute = ({children}) => {
-    if (!state.isAuthenticated) {
-      alert('Usuario ou senha invalido')
+    if (!state.isAuthenticated){
+      alert('Usuario não authenticado')
       return <Navigate to="/"/>;
     }
     return children;
-};
+  };
 
 
   return (
@@ -31,7 +33,11 @@ function App() {
             <StockModule/>
           </ProtectedRoute>
         }/>
-        <Route path="/redirect" element={<RedirectScreen/>}/>
+        <Route path="/redirect" element={
+          <ProtectedRoute>
+            <RedirectScreen/>
+          </ProtectedRoute>
+        }/>
       </Routes>
     </div>
   );

@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# ERP-PLUS
+<p align="center">ERP dividido em módulos para atender todos os departamentos de um empresa</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h4 align="center"> 
+	🚧  React Select 🚀 Em construção...  🚧
+</h4>
 
-## Available Scripts
+### Features
 
-In the project directory, you can run:
+## Modulo de estoque
+-Status: Em desenvolvimento
+- [x] Cadastro de items ou produtos
+- [x] Definição de criticidade de items em estoque
+- [x] Histórico de movimentações
+- [x] Inventário
+- [ ] Controle de armazém
+- [ ] DashBoard 
 
-### `npm start`
+## Modulo de gestão em departamento pessoal
+- Status: Não iniciado
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Modulo de gestão em recursos humanos
+- Status: Não iniciado
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Modulo de gestão de compras
+- Status: Não iniciado
 
-### `npm test`
+<h1 align="center">
+  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./imagens/home-page.png" />
+</h1>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## link de teste
+https://erp-plus-front-end-2qpn.vercel.app/
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Pré-requisitos
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Visite o repositório para fazer o download do back-end
+https://github.com/RailsonPinheiro2030/Erp_plus_APIs
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### 🎲 Rodando o Front End
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+# Clone este repositório
+$ git clone <https://github.com/RailsonPinheiro2030/Erp_plus_front_end>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Acesse a pasta do projeto no terminal/cmd
+$ cd Erp_plus_front_end
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Instale as dependências
+$ npm install
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Crie um arquivo .env e coloque a variável de ambiente REACT_APP_BASE_URL que recebe o ip e a porta do servidor back-end
+REACT_APP_BASE_URL = 'https://localhost:5000/'
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+# Execute a aplicação em modo de desenvolvimento
+$ npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+# O servidor inciará na porta:3000 - acesse <http://localhost:3000>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+### 🛠 Tecnologias
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+As seguintes ferramentas foram usadas na construção do projeto:
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Node.js](https://nodejs.org/en/)
+- [React](https://pt-br.reactjs.org/)
+- [Redux-toolkit](https://redux-toolkit.js.org/introduction/getting-started)
+- [React-semantic-ui](https://react.semantic-ui.com/)
+- [React-suite](https://rsuitejs.com/)
